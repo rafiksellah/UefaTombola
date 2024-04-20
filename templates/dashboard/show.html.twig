@@ -1,0 +1,93 @@
+{# templates/game/show.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Jeu #{{ game.id }}{% endblock %}
+
+{% block body %}
+    <h1>Détails du Jeu #{{ game.id }}</h1>
+
+    <dl class="row">
+        <dt class="col-sm-3">ID</dt>
+        <dd class="col-sm-9">{{ game.id }}</dd>
+
+        <dt class="col-sm-3">User</dt>
+        <dd class="col-sm-9">{{ game.user.email }}</dd>
+
+        <dt class="col-sm-3">Number</dt>
+        <dd class="col-sm-9">{{ game.number }}</dd>
+
+        <dt class="col-sm-3">Wilaya</dt>
+        <dd class="col-sm-9">{{ game.cityName }}</dd>
+
+        <dt class="col-sm-3">Created At</dt>
+        <dd class="col-sm-9">{{ game.createdAt ? game.createdAt|date('Y-m-d H:i:s') : 'N/A' }}</dd>
+
+        <dt class="col-sm-3">Dernière Activité</dt>
+        <dd class="col-sm-9">{{ (game.events|last).createdAt|date('d-m-Y H:i:s') }} </dd>
+    </dl><br>
+    {% if game.type == 0 %}
+        <h2>Gagnant Tombola: ({{  game.tombolaWinner ? game.tombolaWinner.username ~ ' - ' ~ game.tombolaWinner.phone : 'N/A' }}) </h2>
+    {% endif %}
+
+    <h2>Events ({{ game.events|length }}) </h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Created At</th>
+                <th scope="col">Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in game.events %}
+                <tr>
+                    <td>{{ event.id }}</td>
+                    <td>{{ event.createdAt ? event.createdAt|date('Y-m-d H:i:s') : 'N/A' }}</td>
+                    <td>{{ event.text }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if game.type == 1 %}
+        <h2>Gift Quantities</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Cadeau</th>
+                    <th scope="col">Initial Quantity</th>
+                    <th scope="col">Quantity Left</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for giftQuantity in game.gifts %}
+                    <tr>
+                        <td>{{ giftQuantity.name }}</td>
+                        <td>{{ giftQuantity.initialQuantity }}</td>
+                        <td>{{ giftQuantity.initialQuantity - giftQuantity.quantityUsed }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2>Participants ({{ game.participant|length }})</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Date d'ajout</th>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for participant in game.participant %}
+                    <tr>
+                        <td>{{ participant.createdAt ? participant.createdAt|date('Y-m-d H:i:s') : 'N/A' }}</td>
+                        <td>{{ participant.username }}</td>
+                        <td>{{ participant.phone }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

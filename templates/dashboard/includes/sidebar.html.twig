@@ -1,0 +1,37 @@
+
+<ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{path('app_dashboard')}}">
+    <div class="sidebar-brand-icon">
+        <img src="{{asset('assets/admin/img/logototal1.png')}}">
+    </div>
+    </a>
+    <hr class="sidebar-divider my-0">
+    {% if app.user %}
+        <li class="nav-item active">
+        <a class="nav-link" href="{{path('app_dashboard')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+        </li>
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">
+            Data
+        </div>
+        <li class="nav-item">
+        <a class="nav-link" href="{{path('app_dashboard')}}">
+            <i class="fas fa-fw fa-file"></i>
+            <span>Last Data</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{path('app_all_data')}}">
+            <i class="fas fa-fw fa-file"></i>
+            <span>All Data</span></a>
+        </li>
+        <hr class="sidebar-divider mb-4">
+        <li class="nav-item">
+            <a class="nav-link" href="{{path('app_logout')}}">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span></a>
+        </li>
+        
+    {% endif %}    
+</ul>

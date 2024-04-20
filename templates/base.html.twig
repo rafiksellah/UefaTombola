@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link href="{{asset('assets/admin/img/logototal1.png')}}" rel="icon">
+        <title>{% block title %}Uefa Tombola{% endblock %}</title>
+        <link href="{{asset('assets/admin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('assets/admin/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('assets/admin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('assets/admin/css/ruang-admin.min.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/admin/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+        
+        <!-- Start GA -->
+        {% block stylesheets %}
+            
+        {% endblock %}
+
+    </head>
+    <body id="page-top">
+        <div id="wrapper">
+        <!-- Sidebar -->
+        {% include "dashboard/includes/sidebar.html.twig" %}
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!-- TopBar -->
+            <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+                {% include "dashboard/includes/nav.html.twig" %}
+            </nav>
+            <!-- Topbar -->
+
+            <!-- Container Fluid-->
+            <div class="container-fluid" id="container-wrapper">
+                {% block body %}{% endblock %}
+
+            </div>
+            <!---Container Fluid-->
+        </div>
+        <!-- Footer -->
+            {% include "dashboard/includes/footer.html.twig" %}
+        <!-- Footer -->
+        </div>
+    </div>
+                
+        {% block javascripts %}
+            <script src="{{asset('assets/admin/vendor/jquery/jquery.min.js')}}"></script>
+            <script src="{{asset('assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+            <script src="{{asset('assets/admin/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+            <script src="{{asset('assets/admin/js/ruang-admin.min.js')}}"></script>
+            <!-- Page level plugins -->
+            <script src="{{asset('assets/admin/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+            <script src="{{asset('assets/admin/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
+            <!-- Page level custom scripts -->
+            <script>
+                $(document).ready(function () {
+                $('#dataTable').DataTable(); // ID From dataTable 
+                $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                $('#dataTable').DataTable(); // ID From dataTable 
+                });
+            </script>
+
+        {% endblock %}
+    </body>
+</html>
+

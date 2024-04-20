@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ user_email }} - Profile{% endblock %}
+
+{% block sidebar %}
+    <div class="main-list">
+        <ul>
+            <li><a href="{{ path('profile') }}">User info</a></li>
+            <li><a href="{{ path('admin_img') }}">Admin access</a></li>
+            <li><a href="{{ path('super_admin_img') }}">Super admin access</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+    <div>
+        <h1>Hi, {{ user_email }}!</h1>
+        <p>Your role is: {{ user_role|join(', ') }}</p>
+    </div>
+{% endblock %}
+

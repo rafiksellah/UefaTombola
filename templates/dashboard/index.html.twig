@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tableau de Bord
+{% endblock %}
+
+{% block body %}
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="{{ path('app_dashboard') }}">Home</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+		</ol>
+	</div>
+
+	<section class="section">
+		<div class="card">
+			<div class="card-header">
+				<h2 class="mt-4">Dernières Données Reçues last 24h</h2>
+			</div>
+			<div class="card-body">
+				<div class="">
+					<form id="filterForm" action="{{ path('app_dashboard') }}" method="get">
+						<div class="mb-3">
+							<label for="placeFilter" class="form-label">Filtrer par Place :</label>
+							<input type="text" id="placeFilter" name="place" class="form-control" placeholder="Entrez une place">
+						</div>
+						<button type="button" class="btn btn-primary mt-2 mb-2" id="filterButton">Filtrer</button>
+					</form>
+				</div>
+				{% for flashMessage in app.flashes('error') %}
+					<div class="alert alert-danger mt-3" role="alert">
+						{{ flashMessage }}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="row">
+          <!-- Datatables -->
+          <div class="col-lg-12">
+            <div class="card mb-4">
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Dernières Données Reçues last 24h</h6>
+              </div>
+              <div class="table-responsive p-3">
+					{% if latestData is not empty %}
+						<table class="table align-items-center table-flush table-hover" id="dataTable">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">Type</th>
+									<th scope="col">Ref</th>
+									<th scope="col">Date de Création</th>
+									<th scope="col">Wilaya</th>
+									<th scope="col">Dernière Activité</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th scope="col">Type</th>
+									<th scope="col">Ref</th>
+									<th scope="col">Date de Création</th>
+									<th scope="col">Wilaya</th>
+									<th scope="col">Dernière Activité</th>
+									<th scope="col">Action</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								{% for data in latestData %}
+									<tr>
+										<th scope="row">
+											{% if (data.type == 0)  %}
+												<img width="50" src="{{asset('assets/admin/img/0.png')}}" alt="">
+												{% else %}
+												<img width="50" src="{{asset('assets/admin/img/1.png')}}" alt="">
+											{% endif %}
+										</th>
+										<th scope="row">{{ data.id }}</th>
+										<td>{{ data.createdAt|date('l, Y H:i') }}</td>
+										<td>{{ data.cityName }}</td>
+										<td>{{ (data.events|last).createdAt|date('d-m-Y H:i:s') }}</td>
+										<td>
+											<a href="{{ path('game_show', {'id': data.id}) }}" class="btn btn-primary">Voir les détails</a>
+										</td>
+									</tr>
+								{% endfor %}                        
+							</tbody>
+						</table>
+						<div class="">
+							<a href="{{ path('export_dashboard_excel') }}" class="btn btn-primary mt-4">Export All Data</a>
+						</div>
+						<div style="float:right">
+							{{ knp_pagination_render(latestData) }}
+						</div>
+						{# Ajoutez un bouton pour extraire les données filtrées #}
+						{% if app.request.query.get('place') is not null %}
+							<a href="{{ path('export_dashboard_excel', {'place': app.request.query.get('place')}) }}" class="btn btn-primary mt-4">Extraire les données filtrées</a>
+						{% endif %}
+						{% else %}
+							{# Uniquement afficher le message si latestData est vide #}
+							<p class="mt-4">Aucune donnée disponible.</p>
+						{% endif %}
+			   </div>
+			</div>
+		  </div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+		document.getElementById('filterButton').addEventListener('click', function () {
+		document.getElementById('filterForm').submit();
+		});
+		});
+	</script>
+{% endblock %}

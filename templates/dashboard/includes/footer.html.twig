@@ -1,0 +1,19 @@
+{% if app.user %}
+    <footer class="sticky-footer bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                <img width="30%" src="{{asset('assets/admin/img/logototal1.png')}}" alt="">
+            </div>
+            <div class="col-md-5">
+                <span>copyright &copy; <script> document.write(new Date().getFullYear()); </script> - developed by
+                    <b><a href="https://theagencytest.online/" target="_blank">Uefa Tombola</a></b>
+                </span>
+            </div>
+            <div class="col-md-3">
+                <img width="50%" src="{{asset('assets/admin/img/logototal1.png')}}" alt="">
+            </div>
+            </div>
+        </div>
+    </footer>
+{% endif %}
