@@ -34,13 +34,13 @@ class AllDataController extends AbstractController
         // Ajouter les en-têtes pour Game
         $sheet->setCellValue('A1', 'User');
         $sheet->setCellValue('B1', 'Number');
-        $sheet->setCellValue('C1', 'Place');
+        $sheet->setCellValue('C1', 'cityName');
         // Ajoutez d'autres colonnes selon vos besoins pour Game
     
         // Ajouter les en-têtes pour GiftQuantity
         $sheet->setCellValue('D1', 'Gift Name');
         $sheet->setCellValue('E1', 'Initial Quantity');
-        $sheet->setCellValue('F1', 'Quantity Left');
+        $sheet->setCellValue('F1', 'Quantity Used');
         // Ajoutez d'autres colonnes selon vos besoins pour GiftQuantity
     
         // Ajouter les en-têtes pour Event
@@ -55,21 +55,21 @@ class AllDataController extends AbstractController
             // Game data
             $sheet->setCellValue('A' . $row, $data->getUser());
             $sheet->setCellValue('B' . $row, $data->getNumber());
-            $sheet->setCellValue('C' . $row, $data->getPlace());
+            $sheet->setCellValue('C' . $row, $data->getCityName());
             // Ajoutez d'autres colonnes selon vos besoins pour Game
     
             // GiftQuantity data
             foreach ($data->getGifts() as $giftQuantity) {
-                $sheet->setCellValue('D' . $row, $giftQuantity->getGiftLabel()); // Utilisez getGiftLabel() au lieu de getId()
+                $sheet->setCellValue('D' . $row, $giftQuantity->getName()); // Utilisez getGiftLabel() au lieu de getId()
                 $sheet->setCellValue('E' . $row, $giftQuantity->getInitialQuantity());
-                $sheet->setCellValue('F' . $row, $giftQuantity->getQuantityLeft());
+                $sheet->setCellValue('F' . $row, $giftQuantity->getQuantityUsed());
                 // Ajoutez d'autres colonnes selon vos besoins pour GiftQuantity
             }
     
             // Event data
             foreach ($data->getEvents() as $event) {
                 $sheet->setCellValue('G' . $row, $event->getId());
-                $sheet->setCellValue('H' . $row, $event->getMessage());
+                $sheet->setCellValue('H' . $row, $event->getText());
                 $sheet->setCellValue('I' . $row, $event->getCreatedAt()->format('Y-m-d H:i:s'));
                 // Ajoutez d'autres colonnes selon vos besoins pour Event
                 $row++; // assurez-vous d'incrémenter le compteur de ligne à l'intérieur de la boucle des événements

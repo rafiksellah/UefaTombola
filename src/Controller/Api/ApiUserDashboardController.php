@@ -63,7 +63,6 @@ class ApiUserDashboardController extends AbstractController
 
         $gameId = isset($data['gameId']) ? $data['gameId'] : null;
         $gameData = $gameRepository->findById($gameId);
-        
         if ($gameData) 
            {
             foreach ($gameData[0]->getGifts() as $giftQuantityData) {
@@ -86,9 +85,11 @@ class ApiUserDashboardController extends AbstractController
                 $gameData[0]->addEvent($event);
                 
             }
+
             foreach ($gameData[0]->getParticipant() as $participantData) {
                 $entityManager->remove($participantData);
             }
+
             $gameData[0]->getParticipant()->clear();
 
             foreach ($data['participant'] as $participantData) {
@@ -96,11 +97,12 @@ class ApiUserDashboardController extends AbstractController
                 $gameData[0]->addparticipant($participant);
                 
             }
-            $tombolaWinner = $serializer->deserialize(json_encode($data['tombolaWinner']), Participant::class, 'json');
-            if ($tombolaWinner) {
-                $gameData[0]->setTombolaWinner($tombolaWinner);
-                $tombolaWinner->setGame($gameData[0]);
-
+            if(isset($data['tombolaWinner'])&& $data['tombolaWinner']!=null){
+                $tombolaWinner = $serializer->deserialize(json_encode($data['tombolaWinner']), Participant::class, 'json');
+                if ($tombolaWinner) {
+                    $gameData[0]->setTombolaWinner($tombolaWinner);
+                    $tombolaWinner->setGame($gameData[0]);
+                }
             }
             $entityManager->persist($gameData[0]);
             $entityManager->flush();
