@@ -21,7 +21,7 @@ class GameRepository extends ServiceEntityRepository
         parent::__construct($registry, Game::class);
     }
 
-    public function findLatestDataLast24Hours(?string $place = null): array
+    public function findLatestDataLast24Hours(?string $cityName = null): array
     {
         $now = new \DateTime();
         $twentyFourHoursAgo = (new \DateTime())->modify('-24 hours');
@@ -31,9 +31,9 @@ class GameRepository extends ServiceEntityRepository
             ->setParameter('twentyFourHoursAgo', $twentyFourHoursAgo)
             ->setParameter('now', $now);
 
-        if ($place) {
-            $qb->andWhere('g.place = :place')
-                ->setParameter('place', $place);
+        if ($cityName) {
+            $qb->andWhere('g.cityName = :cityName')
+                ->setParameter('cityName', $cityName);
         }
 
         $qb->orderBy('g.createdAt', 'DESC');
@@ -41,12 +41,12 @@ class GameRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function checkIfPlaceExists($place)
+    public function checkIfcityNameExists($cityName)
     {
         // Votre logique pour vérifier si le lieu existe dans la base de données
         $result = $this->createQueryBuilder('g')
-            ->andWhere('g.place = :place')
-            ->setParameter('place', $place)
+            ->andWhere('g.cityName = :cityName')
+            ->setParameter('cityName', $cityName)
             ->getQuery()
             ->getOneOrNullResult();
 

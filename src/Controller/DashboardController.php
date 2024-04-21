@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Game;
-use App\Form\PlaceFilterType;
+use App\Form\cityNameFilterType;
 use App\Repository\GameRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -27,8 +27,9 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
     
-        $placeFilter = $request->query->get('place');
-        $latestData = $gameRepository->findLatestDataLast24Hours($placeFilter);
+        $cityNameFilter = $request->query->get('cityName');
+        
+        $latestData = $gameRepository->findLatestDataLast24Hours($cityNameFilter);
     
         $page = $request->query->get('page', 1);
         $perPage = 3;
@@ -54,8 +55,8 @@ class DashboardController extends AbstractController
     public function exportToExcel(Request $request, GameRepository $gameRepository): Response
     {
         $user = $this->getUser();
-        $placeFilter = $request->query->get('place'); // Récupérer le paramètre 'place' depuis l'URL
-        $latestData = $gameRepository->findLatestDataLast24Hours($placeFilter);
+        $cityNameFilter = $request->query->get('cityName'); // Récupérer le paramètre 'cityName' depuis l'URL
+        $latestData = $gameRepository->findLatestDataLast24Hours($cityNameFilter);
         if (!$latestData) {
             $this->addFlash('error', 'Le lieu spécifié n\'existe pas.');
             return $this->redirectToRoute('app_dashboard');
@@ -68,7 +69,7 @@ class DashboardController extends AbstractController
         // Ajouter les en-têtes pour Game
         $sheet->setCellValue('A1', 'User');
         $sheet->setCellValue('B1', 'Number');
-        $sheet->setCellValue('C1', 'Place');
+        $sheet->setCellValue('C1', 'cityName');
         // Ajoutez d'autres colonnes selon vos besoins pour Game
     
         // Ajouter les en-têtes pour GiftQuantity
@@ -89,21 +90,21 @@ class DashboardController extends AbstractController
             // Game data
             $sheet->setCellValue('A' . $row, $data->getUser());
             $sheet->setCellValue('B' . $row, $data->getNumber());
-            $sheet->setCellValue('C' . $row, $data->getPlace());
+            $sheet->setCellValue('C' . $row, $data->getcityName());
             // Ajoutez d'autres colonnes selon vos besoins pour Game
     
             // GiftQuantity data
             foreach ($data->getGifts() as $giftQuantity) {
-                $sheet->setCellValue('D' . $row, $giftQuantity->getGiftLabel()); // Utilisez getGiftLabel() au lieu de getId()
+                $sheet->setCellValue('D' . $row, $giftQuantity->getName()); // Utilisez getGiftLabel() au lieu de getId()
                 $sheet->setCellValue('E' . $row, $giftQuantity->getInitialQuantity());
-                $sheet->setCellValue('F' . $row, $giftQuantity->getQuantityLeft());
+                $sheet->setCellValue('F' . $row, $giftQuantity->getQuantityUsed());
                 // Ajoutez d'autres colonnes selon vos besoins pour GiftQuantity
             }
     
             // Event data
             foreach ($data->getEvents() as $event) {
                 $sheet->setCellValue('G' . $row, $event->getId());
-                $sheet->setCellValue('H' . $row, $event->getMessage());
+                $sheet->setCellValue('H' . $row, $event->getText());
                 $sheet->setCellValue('I' . $row, $event->getCreatedAt()->format('Y-m-d H:i:s'));
                 // Ajoutez d'autres colonnes selon vos besoins pour Event
                 $row++; // assurez-vous d'incrémenter le compteur de ligne à l'intérieur de la boucle des événements

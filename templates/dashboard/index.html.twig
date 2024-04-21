@@ -22,8 +22,8 @@
 				<div class="">
 					<form id="filterForm" action="{{ path('app_dashboard') }}" method="get">
 						<div class="mb-3">
-							<label for="placeFilter" class="form-label">Filtrer par Place :</label>
-							<input type="text" id="placeFilter" name="place" class="form-control" placeholder="Entrez une place">
+							<label for="cityNameFilter" class="form-label">Filtrer par wilaya :</label>
+							<input type="text" id="cityNameFilter" name="cityName" class="form-control" placeholder="Entrez une wilaya">
 						</div>
 						<button type="button" class="btn btn-primary mt-2 mb-2" id="filterButton">Filtrer</button>
 					</form>
@@ -93,8 +93,8 @@
 							{{ knp_pagination_render(latestData) }}
 						</div>
 						{# Ajoutez un bouton pour extraire les données filtrées #}
-						{% if app.request.query.get('place') is not null %}
-							<a href="{{ path('export_dashboard_excel', {'place': app.request.query.get('place')}) }}" class="btn btn-primary mt-4">Extraire les données filtrées</a>
+						{% if app.request.query.get('cityName') is not null %}
+							<a href="{{ path('export_dashboard_excel', {'cityName': app.request.query.get('cityName')}) }}" class="btn btn-primary mt-4">Extraire les données filtrées</a>
 						{% endif %}
 						{% else %}
 							{# Uniquement afficher le message si latestData est vide #}
