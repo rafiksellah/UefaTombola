@@ -20,19 +20,19 @@
 			</div>
 			<div class="card-body">
 				<div class="">
-					<form id="filterForm" action="{{ path('app_dashboard') }}" method="get">
-						<div class="mb-3">
-							<label for="cityNameFilter" class="form-label">Filtrer par wilaya :</label>
-							<input type="text" id="cityNameFilter" name="cityName" class="form-control" placeholder="Entrez une wilaya">
-						</div>
-						<button type="button" class="btn btn-primary mt-2 mb-2" id="filterButton">Filtrer</button>
-					</form>
-				</div>
-				{% for flashMessage in app.flashes('error') %}
-					<div class="alert alert-danger mt-3" role="alert">
-						{{ flashMessage }}
-					</div>
-				{% endfor %}
+                    <form id="filterForm" action="{{ path('app_dashboard') }}" method="get">
+                        <div class="mb-3">
+                            <label for="placeFilter" class="form-label">Filtrer par Place :</label>
+                            <input type="text" id="placeFilter" name="place" class="form-control" placeholder="Entrez une place">
+                        </div>
+                        <button type="button" class="btn btn-primary mt-2 mb-2" id="filterButton">Filtrer</button>
+                    </form>
+                </div>     
+                {% for flashMessage in app.flashes('error') %}
+                    <div class="alert alert-danger mt-3" role="alert">
+                        {{ flashMessage }}
+                    </div>  
+                {% endfor %}
 			</div>
 		</div>
 		<div class="row">
@@ -49,6 +49,7 @@
 								<tr>
 									<th scope="col">Type</th>
 									<th scope="col">Ref</th>
+									<th scope="col">Lieux</th>
 									<th scope="col">Date de Création</th>
 									<th scope="col">Wilaya</th>
 									<th scope="col">Dernière Activité</th>
@@ -59,6 +60,7 @@
 								<tr>
 									<th scope="col">Type</th>
 									<th scope="col">Ref</th>
+									<th scope="col">Lieux</th>
 									<th scope="col">Date de Création</th>
 									<th scope="col">Wilaya</th>
 									<th scope="col">Dernière Activité</th>
@@ -76,6 +78,7 @@
 											{% endif %}
 										</th>
 										<th scope="row">{{ data.id }}</th>
+										<th scope="row">{{ data.place }}</th>
 										<td>{{ data.createdAt|date('l, Y H:i') }}</td>
 										<td>{{ data.cityName }}</td>
 										<td>{{ (data.events|last).createdAt|date('d-m-Y H:i:s') }}</td>
@@ -93,8 +96,8 @@
 							{{ knp_pagination_render(latestData) }}
 						</div>
 						{# Ajoutez un bouton pour extraire les données filtrées #}
-						{% if app.request.query.get('cityName') is not null %}
-							<a href="{{ path('export_dashboard_excel', {'cityName': app.request.query.get('cityName')}) }}" class="btn btn-primary mt-4">Extraire les données filtrées</a>
+						{% if app.request.query.get('place') is not null %}
+							<a href="{{ path('export_dashboard_excel', {'place': app.request.query.get('place')}) }}" class="btn btn-primary mt-4">Extraire les données filtrées</a>
 						{% endif %}
 						{% else %}
 							{# Uniquement afficher le message si latestData est vide #}

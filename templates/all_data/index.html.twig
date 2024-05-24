@@ -26,6 +26,7 @@
                       <tr>
                           <th scope="col">Type</th>
                           <th scope="col">Ref</th>
+                          <th scope="col">Lieux</th>
                           <th scope="col">Date de Création</th>
                           <th scope="col">Wilaya</th>
                           <th scope="col">Dernière Activité</th>
@@ -36,6 +37,7 @@
                       <tr>
                           <th scope="col">Type</th>
                           <th scope="col">Ref</th>
+                          <th scope="col">Lieux</th>
                           <th scope="col">Date de Création</th>
                           <th scope="col">Wilaya</th>
                           <th scope="col">Dernière Activité</th>
@@ -47,6 +49,7 @@
                           <tr>
                               <th scope="row">{{ data.type }}</th>
                               <th scope="row">{{ data.id }}</th>
+                              <th scope="row">{{ data.place }}</th>
                               <td>{{ data.createdAt|date('l, Y H:i') }}</td>
                               <td>{{ data.cityName }}</td>
                               <td>{{ (data.events|last).createdAt|date('d-m-Y H:i:s') }}</td>
