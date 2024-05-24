@@ -34,6 +34,10 @@ class Game
     #[ORM\Column]
     private ?int $cityCode = null;
 
+    #[Assert\NotBlank(message:"Le champs ne doit pas etre nul")]
+    #[ORM\Column(length: 255)]
+    private ?string $place = null;
+
     #[Assert\Type(type:"DateTime")]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
@@ -107,6 +111,17 @@ class Game
         return $this;
     }
 
+    public function getPlace(): ?string
+    {
+        return $this->place;
+    }
+
+    public function setPlace(string $place): static
+    {
+        $this->place = $place;
+
+        return $this;
+    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {

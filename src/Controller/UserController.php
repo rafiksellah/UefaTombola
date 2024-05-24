@@ -28,7 +28,6 @@ class UserController extends AbstractController
     #[Route('/api/userCreate', name: 'userCreate', methods:'POST')]
     public function userCreate(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
-       $data = json_decode($request->getContent(),true);
 
        $decoded = json_decode($request->getContent());
        $email = $decoded->email;

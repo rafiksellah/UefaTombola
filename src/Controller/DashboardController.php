@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Game;
-use App\Form\cityNameFilterType;
 use App\Repository\GameRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -27,9 +26,9 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
     
-        $cityNameFilter = $request->query->get('cityName');
+        $placeFilter = $request->query->get('place'); 
         
-        $latestData = $gameRepository->findLatestDataLast24Hours($cityNameFilter);
+        $latestData = $gameRepository->findLatestDataLast24Hours($placeFilter);
     
         $page = $request->query->get('page', 1);
         $perPage = 3;
@@ -55,8 +54,8 @@ class DashboardController extends AbstractController
     public function exportToExcel(Request $request, GameRepository $gameRepository): Response
     {
         $user = $this->getUser();
-        $cityNameFilter = $request->query->get('cityName'); // Récupérer le paramètre 'cityName' depuis l'URL
-        $latestData = $gameRepository->findLatestDataLast24Hours($cityNameFilter);
+        $placeFilter = $request->query->get('place'); // Récupérer le paramètre 'place' depuis l'URL
+        $latestData = $gameRepository->findLatestDataLast24Hours($placeFilter);
         if (!$latestData) {
             $this->addFlash('error', 'Le lieu spécifié n\'existe pas.');
             return $this->redirectToRoute('app_dashboard');
